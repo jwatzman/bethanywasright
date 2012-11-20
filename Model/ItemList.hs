@@ -1,12 +1,12 @@
 {-# LANGUAGE DeriveDataTypeable, GeneralizedNewtypeDeriving, RecordWildCards,
-    TemplateHaskell, TypeFamilies #-}
+    TemplateHaskell, TypeFamilies, OverloadedStrings #-}
 
 module Model.ItemList(
 	ItemList(..),
 	initialItemList,
-	newItem,
-	itemById,
-	allItems
+	NewItem(..),
+	ItemById(..),
+	AllItems(..)
 ) where
 
 import Control.Monad.Reader (ask)
@@ -27,11 +27,20 @@ data ItemList = ItemList
 	deriving (Typeable)
 $(SC.deriveSafeCopy 0 'SC.base ''ItemList)
 
+-- TODO remove OverloadedStrings when removing this
+temporaryTestItem :: I.Item
+temporaryTestItem = I.Item
+	{
+		itemID = I.ItemID 42,
+		status = I.Visible,
+		body = "hi <blink>test</blink>"
+	}
+
 initialItemList :: ItemList
 initialItemList = ItemList
 	{
 		nextItemID = I.ItemID ((2 ^ 33) + 1),
-		items = IxS.empty
+		items = IxS.insert temporaryTestItem IxS.empty
 	}
 
 newItem :: Text -> A.Update ItemList I.Item
