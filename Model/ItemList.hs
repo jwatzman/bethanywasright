@@ -1,7 +1,13 @@
 {-# LANGUAGE DeriveDataTypeable, GeneralizedNewtypeDeriving, RecordWildCards,
     TemplateHaskell, TypeFamilies #-}
 
-module Model.ItemList(ItemList(..)) where
+module Model.ItemList(
+	ItemList(..),
+	initialItemList,
+	newItem,
+	itemById,
+	allItems
+) where
 
 import Control.Monad.Reader (ask)
 import Control.Monad.State (get, put)
@@ -18,6 +24,7 @@ data ItemList = ItemList
 		nextItemID :: I.ItemID,
 		items :: IxS.IxSet I.Item
 	}
+	deriving (Typeable)
 $(SC.deriveSafeCopy 0 'SC.base ''ItemList)
 
 initialItemList :: ItemList
