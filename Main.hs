@@ -12,7 +12,7 @@ import qualified Page.Home
 dispatch :: A.AcidState IL.ItemList -> S.ServerPart S.Response
 dispatch acid =
 	msum [
-		Page.Home.render
+		Page.Home.render acid
 	]
 
 main :: IO ()
