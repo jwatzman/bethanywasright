@@ -1,9 +1,11 @@
-module StaticResource(addCss, addJs, runSR, StaticResource) where
+{-# LANGUAGE RecordWildCards #-}
+
+module StaticResource(addCss, addJs, runSR, StaticResource, SRData(..)) where
 
 import Control.Monad.State
 
-type SRPair = ([String], [String])
-newtype StaticResource a = SR { getSR :: State SRPair a }
+data SRData = SRData { css :: [String], js :: [String] }
+newtype StaticResource a = SR { getSR :: State SRData a }
 
 instance Monad StaticResource where
 	return = SR . return
@@ -11,13 +13,13 @@ instance Monad StaticResource where
 
 addCss :: String -> StaticResource ()
 addCss newCss = do
-	(css, js) <- SR get
-	SR $ put (newCss:css, js)
+	sr@SRData{..} <- SR get
+	SR $ put $ sr { css = (newCss:css) }
 
 addJs :: String -> StaticResource ()
 addJs newJs = do
-	(css, js) <- SR get
-	SR $ put (css, newJs:js)
+	sr@SRData{..} <- SR get
+	SR $ put $ sr { js = newJs:js }
 
-runSR :: StaticResource a -> (a, SRPair)
-runSR sr = runState (getSR sr) ([], [])
+runSR :: StaticResource a -> (a, SRData)
+runSR sr = runState (getSR sr) $ SRData { css = [], js = [] }

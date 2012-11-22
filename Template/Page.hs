@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards, OverloadedStrings #-}
 
 module Template.Page(render) where
 
@@ -11,7 +11,7 @@ import qualified StaticResource as SR
 
 render :: String -> SR.StaticResource H.Html -> H.Html
 render title body =
-	let (bodyMarkup, (css, js)) = SR.runSR body in
+	let (bodyMarkup, SR.SRData{..}) = SR.runSR body in
 	H.docTypeHtml $ do
 		H.head $ do
 			H.title $ H.toHtml title
