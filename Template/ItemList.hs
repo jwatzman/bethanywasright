@@ -13,4 +13,7 @@ render items = return $
 	H.ul $ mapM_ renderItem items
 
 renderItem :: I.Item -> H.Html
-renderItem item = H.li $ H.toHtml $ I.body item
+renderItem item = H.li ! A.id (itemID item) $ H.toHtml $ I.body item
+
+itemID :: I.Item -> H.AttributeValue
+itemID item = H.toValue $ concat ["i_", show $ I.getItemID $ I.itemID item]
