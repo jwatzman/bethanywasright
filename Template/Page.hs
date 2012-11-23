@@ -16,6 +16,7 @@ render title body =
 		H.head $ do
 			H.title $ H.toHtml title
 			mapM_ renderJs js
+			renderJs "/static/jquery-1.8.3.min.js"
 			-- TODO: render CSS
 		H.body $ do
 			bodyMarkup

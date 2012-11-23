@@ -12,6 +12,7 @@ import qualified Page.Home
 dispatch :: A.AcidState IL.ItemList -> S.ServerPart S.Response
 dispatch acid =
 	msum [
+		S.dir "static" $ S.serveDirectory S.DisableBrowsing [] "./static",
 		Page.Home.render acid
 	]
 
