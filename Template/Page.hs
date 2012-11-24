@@ -17,7 +17,7 @@ render title body =
 			H.title $ H.toHtml title
 			renderJs "jquery-1.8.3.min.js"
 			mapM_ renderJs $ Data.List.nub js
-			mapM_ renderCss css
+			mapM_ renderCss $ Data.List.nub css
 		H.body $ do
 			bodyMarkup
 
@@ -28,4 +28,5 @@ renderJs :: String -> H.Html
 renderJs js = H.script ! (A.src $ H.toValue $ prependPath js) $ ""
 
 renderCss :: String -> H.Html
-renderCss css = H.link ! (A.rel "stylesheet") ! (A.href $ H.toValue $ prependPath css)
+renderCss css = H.link ! (A.rel "stylesheet") !
+	(A.href $ H.toValue $ prependPath css)
