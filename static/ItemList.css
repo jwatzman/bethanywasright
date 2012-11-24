@@ -1,3 +1,7 @@
+.item {
+	padding-left: 0;
+}
+
 .item li {
 	display: inline;
 	list-style-type: none;
