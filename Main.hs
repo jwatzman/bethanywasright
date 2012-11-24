@@ -8,11 +8,13 @@ import qualified Happstack.Lite as S
 
 import qualified Model.ItemList as IL
 import qualified Page.Home
+import qualified Page.Save
 
 dispatch :: A.AcidState IL.ItemList -> S.ServerPart S.Response
 dispatch acid =
 	msum [
 		S.nullDir >> Page.Home.render acid,
+		S.dir "save" $ do S.method S.POST ; Page.Save.render acid,
 		S.dir "static" $ S.serveDirectory S.DisableBrowsing [] "./static"
 	]
 
