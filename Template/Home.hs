@@ -14,9 +14,7 @@ render :: [I.Item] -> SR.StaticResource H.Html
 render items = do
 	il <- Template.ItemList.render items
 	form <- renderAddForm
-	return $ H.div $ do
-		il
-		form
+	return $ sequence_ [ il, form ]
 
 renderAddForm :: SR.StaticResource H.Html
 renderAddForm = return $
