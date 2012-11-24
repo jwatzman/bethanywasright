@@ -22,7 +22,7 @@ render title body =
 			bodyMarkup
 
 prependPath :: String -> String
-prependPath p = concat ["/static/", p]
+prependPath = (++) "/static/"
 
 renderJs :: String -> H.Html
 renderJs js = H.script ! (A.src $ H.toValue $ prependPath js) $ ""

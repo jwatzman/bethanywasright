@@ -21,4 +21,4 @@ renderItem item = H.li ! A.id (itemID item) $ H.ul ! A.class_ "item" $ do
 	H.li $ H.a ! A.href "/stuff" ! A.class_ "deleteLink" $ "Delete"
 
 itemID :: I.Item -> H.AttributeValue
-itemID item = H.toValue $ concat ["i_", show $ I.getItemID $ I.itemID item]
+itemID item = H.toValue $ "i_" ++ (show $ I.getItemID $ I.itemID item)
