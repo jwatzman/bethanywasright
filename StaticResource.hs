@@ -1,4 +1,4 @@
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving, RecordWildCards #-}
 
 module StaticResource(
 	StaticResource,
@@ -14,10 +14,7 @@ import qualified Data.Set as S
 data SRData = SRData { cssSet :: S.Set String, jsSet :: S.Set String }
 data SRResult = SRResult { css :: [String], js :: [String] }
 newtype StaticResource a = SR { getSR :: State SRData a }
-
-instance Monad StaticResource where
-	return = SR . return
-	(SR a) >>= bgen = SR $ a >>= (getSR . bgen)
+	deriving (Monad)
 
 addCss :: String -> StaticResource ()
 addCss newCss = do
