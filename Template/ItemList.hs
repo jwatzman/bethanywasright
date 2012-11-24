@@ -18,7 +18,6 @@ render items = do
 renderItem :: I.Item -> H.Html
 renderItem item = H.li ! A.id (itemID item) $ H.ul ! A.class_ "item" $ do
 	H.li $ H.toHtml $ I.body item
-	H.li $ H.a ! A.href "/stuff" ! A.class_ "editLink" $ "Edit"
 	H.li $ H.a ! A.href "/stuff" ! A.class_ "deleteLink" $ "Delete"
 
 itemID :: I.Item -> H.AttributeValue
