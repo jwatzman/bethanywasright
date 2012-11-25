@@ -5,12 +5,14 @@ module Model.ItemList(
 	ItemList(..),
 	initialItemList,
 	NewItem(..),
+	DeleteItem(..),
 	ItemById(..),
 	AllItems(..)
 ) where
 
 import Control.Monad.Reader (ask)
 import Control.Monad.State (get, put)
+import Control.Monad.Trans (lift)
 import qualified Data.Acid as A
 import Data.Data (Data, Typeable)
 import qualified Data.IxSet as IxS
@@ -59,6 +61,16 @@ newItem body = do
 		}
 	return item
 
+deleteItem :: I.ItemID -> A.Update ItemList (Either String ())
+deleteItem id = do
+	il@ItemList{..} <- get
+	case IxS.getOne $ IxS.getEQ id items of
+		Nothing -> return $ Left "item not found"
+		Just item -> do
+			let deletedItem = item { I.status = I.Deleted }
+			put $ il { items = IxS.updateIx id deletedItem items }
+			return $ Right ()
+
 itemById :: I.ItemID -> A.Query ItemList (Maybe I.Item)
 itemById id = do
 	ItemList{..} <- ask
@@ -70,4 +82,4 @@ allItems = do
 	let visibleItems = IxS.getEQ I.Visible items
 	return $ IxS.toAscList (IxS.Proxy :: IxS.Proxy I.ItemID) visibleItems
 
-$(A.makeAcidic ''ItemList ['newItem, 'itemById, 'allItems])
+$(A.makeAcidic ''ItemList ['newItem, 'deleteItem, 'itemById, 'allItems])
