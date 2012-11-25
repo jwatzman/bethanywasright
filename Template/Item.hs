@@ -3,6 +3,7 @@
 module Template.Item(render) where
 
 import Text.Blaze ((!))
+import qualified Text.Blaze as B
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 
@@ -15,9 +16,11 @@ render item = do
 	hl <- Template.HorizList.render
 		[
 			H.toHtml $ I.body item,
-			H.a ! A.href "/stuff" ! A.class_ "deleteLink" $ "Delete"
+			H.a ! A.href "/delete" ! A.class_ "deleteLink" ! dataitemID item $
+				"Delete"
 		]
-	return $ H.li ! A.class_ "item" ! A.id (itemID item) $ hl
+	return $ H.li ! A.class_ "item" $ hl
 
-itemID :: I.Item -> H.AttributeValue
-itemID item = H.toValue $ "i_" ++ (show $ I.getItemID $ I.itemID item)
+dataitemID :: I.Item -> B.Attribute
+dataitemID item = B.dataAttribute "itemid" $
+	H.toValue $ show $ I.getItemID $ I.itemID item

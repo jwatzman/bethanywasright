@@ -19,4 +19,4 @@ render acid = do
 	() <- case updateResult of
 		Left err -> mzero
 		Right () -> return ()
-	S.ok $ S.toResponse $ "debweeted"
+	S.ok $ S.toResponse $ "Deleted"
