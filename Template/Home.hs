@@ -17,8 +17,10 @@ render items = do
 	return $ sequence_ [ il, form ]
 
 renderAddForm :: SR.StaticResource H.Html
-renderAddForm = return $
-	H.form $ do
-		"New Item: "
-		H.input ! A.type_ "text" ! A.name "item"
-		H.input ! A.type_ "submit" ! A.value "Add"
+renderAddForm = do
+	SR.addJs "AddForm.js"
+	return $
+		H.form ! A.id "addItemForm" ! A.action "/save" ! A.method "POST" $ do
+			"New Item: "
+			H.input ! A.type_ "text" ! A.name "body"
+			H.input ! A.type_ "submit" ! A.value "Add"

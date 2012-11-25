@@ -15,5 +15,4 @@ render items = do
 	SR.addJs "ItemList.js"
 	SR.addCss "ItemList.css"
 	renderedItems <- mapM Template.Item.render items
-	return $ H.ul $ sequence_ renderedItems
-
+	return $ H.ul ! A.id "itemList" $ sequence_ renderedItems
