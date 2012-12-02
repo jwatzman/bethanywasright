@@ -5,4 +5,9 @@
 .horizList > li {
 	display: inline;
 	list-style-type: none;
+	margin-left: 20px;
+}
+
+.horizList > li:first-child {
+	margin-left: 0;
 }

@@ -18,6 +18,7 @@ render title body =
 			renderJs "javelin.min.js"
 			renderMeta meta
 			mapM_ renderJs js
+			renderCss "Page.css"
 			mapM_ renderCss css
 		H.body $ do
 			bodyMarkup
