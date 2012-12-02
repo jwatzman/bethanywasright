@@ -21,6 +21,9 @@ render title body =
 			mapM_ renderJs js
 			renderCss "Page.css"
 			mapM_ renderCss css
+			-- NB: the order is important here -- resource needs to be last
+			-- so it can pick up on all the other files we've loaded
+			renderJs "javelin-resource.dev.js"
 		H.body $ do
 			bodyMarkup
 
@@ -28,10 +31,11 @@ prependPath :: String -> String
 prependPath = (++) "/static/"
 
 renderJs :: String -> H.Html
-renderJs js = H.script ! (A.src $ H.toValue $ prependPath js) $ ""
+renderJs js = H.script ! (A.type_ "text/javascript") !
+	(A.src $ H.toValue $ prependPath js) $ ""
 
 renderCss :: String -> H.Html
-renderCss css = H.link ! (A.rel "stylesheet") !
+renderCss css = H.link ! (A.rel "stylesheet") ! (A.type_ "text/css") !
 	(A.href $ H.toValue $ prependPath css)
 
 renderDevMode :: H.Html
