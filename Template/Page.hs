@@ -14,8 +14,9 @@ render title body =
 	H.docTypeHtml $ do
 		H.head $ do
 			H.title $ H.toHtml title
-			renderJs "init.min.js"
-			renderJs "javelin.min.js"
+			renderDevMode
+			renderJs "init.dev.js"
+			renderJs "javelin.dev.js"
 			renderMeta meta
 			mapM_ renderJs js
 			renderCss "Page.css"
@@ -32,6 +33,9 @@ renderJs js = H.script ! (A.src $ H.toValue $ prependPath js) $ ""
 renderCss :: String -> H.Html
 renderCss css = H.link ! (A.rel "stylesheet") !
 	(A.href $ H.toValue $ prependPath css)
+
+renderDevMode :: H.Html
+renderDevMode = H.script "window['__DEV__'] = 1;"
 
 renderMeta :: [String] -> H.Html
 renderMeta meta = H.script $ H.toHtml $ "JX.Stratcom.mergeData(0, " ++ show meta ++ ");"
