@@ -1,15 +1,20 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving, RecordWildCards #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving, OverloadedStrings, RecordWildCards #-}
 
 module StaticResource(
 	StaticResource,
 	SRResult(..),
 	addCss,
 	addJs,
+	addSigil,
 	runSR
 ) where
 
 import Control.Monad.State
 import qualified Data.Set as S
+import Text.Blaze ((!))
+import qualified Text.Blaze as B
+import qualified Text.Blaze.Html5 as H
+import qualified Text.Blaze.Html5.Attributes as A
 
 data SRData = SRData { cssSet :: S.Set String, jsSet :: S.Set String }
 data SRResult = SRResult { css :: [String], js :: [String] }
@@ -25,6 +30,9 @@ addJs :: String -> StaticResource ()
 addJs newJs = do
 	sr@SRData{..} <- SR get
 	SR $ put $ sr { jsSet = S.insert newJs jsSet }
+
+addSigil :: String -> H.Html -> H.Html
+addSigil sigil h = h ! (B.dataAttribute "sigil" $ H.toValue sigil)
 
 runSR :: StaticResource a -> (a, SRResult)
 runSR sr =

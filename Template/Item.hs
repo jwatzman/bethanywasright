@@ -16,11 +16,6 @@ render item = do
 	hl <- Template.HorizList.render
 		[
 			H.toHtml $ I.body item,
-			H.a ! A.href "/delete" ! A.class_ "deleteLink" ! dataitemID item $
-				"Delete"
+			SR.addSigil "delete" $ H.a ! A.href "/delete" $ "Delete"
 		]
-	return $ H.li ! A.class_ "item" $ hl
-
-dataitemID :: I.Item -> B.Attribute
-dataitemID item = B.dataAttribute "itemid" $
-	H.toValue $ show $ I.getItemID $ I.itemID item
+	return $ SR.addSigil "item" $ H.li ! A.class_ "item" $ hl
