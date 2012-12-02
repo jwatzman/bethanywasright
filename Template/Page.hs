@@ -14,7 +14,8 @@ render title body =
 	H.docTypeHtml $ do
 		H.head $ do
 			H.title $ H.toHtml title
-			renderJs "jquery-1.8.3.min.js"
+			renderJs "init.min.js"
+			renderJs "javelin.min.js"
 			mapM_ renderJs js
 			mapM_ renderCss css
 		H.body $ do
