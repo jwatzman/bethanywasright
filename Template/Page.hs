@@ -16,6 +16,7 @@ render title body =
 			H.title $ H.toHtml title
 			renderJs "init.min.js"
 			renderJs "javelin.min.js"
+			renderMeta meta
 			mapM_ renderJs js
 			mapM_ renderCss css
 		H.body $ do
@@ -30,3 +31,6 @@ renderJs js = H.script ! (A.src $ H.toValue $ prependPath js) $ ""
 renderCss :: String -> H.Html
 renderCss css = H.link ! (A.rel "stylesheet") !
 	(A.href $ H.toValue $ prependPath css)
+
+renderMeta :: [String] -> H.Html
+renderMeta meta = H.script $ H.toHtml $ "JX.Stratcom.mergeData(0, " ++ show meta ++ ");"
