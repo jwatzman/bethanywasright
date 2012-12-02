@@ -13,10 +13,10 @@ render :: A.AcidState IL.ItemList -> S.ServerPart S.Response
 render acid = do
 	idstr <- S.lookText "id"
 	id <- case R.decimal idstr of
-		Left err -> mzero
+		Left err -> mzero -- TODO make this return a proper javelin error
 		Right (i, _) -> return i
 	updateResult <- AA.update' acid $ IL.DeleteItem $ I.ItemID id
 	() <- case updateResult of
 		Left err -> mzero
 		Right () -> return ()
-	S.ok $ S.toResponse $ "Deleted"
+	S.ok $ S.toResponse $ "{}"

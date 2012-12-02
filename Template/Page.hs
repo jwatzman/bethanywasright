@@ -1,6 +1,6 @@
 {-# LANGUAGE RecordWildCards, OverloadedStrings #-}
 
-module Template.Page(render) where
+module Template.Page(render, prependPath) where
 
 import Text.Blaze ((!))
 import qualified Text.Blaze.Html5 as H
