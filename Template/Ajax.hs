@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric, RecordWildCards #-}
 
-module Template.Ajax(render) where
+module Template.Ajax(render, renderError) where
 
 import qualified Data.Aeson as AE
 import qualified Data.ByteString.Lazy as BS
@@ -19,7 +19,12 @@ data AjaxResponse = AjaxResponse {
 	__html :: BS.ByteString
 } deriving (Generic)
 
+data AjaxErrorResponse = AjaxErrorResponse {
+	error :: String
+} deriving (Generic)
+
 instance AE.ToJSON AjaxResponse
+instance AE.ToJSON AjaxErrorResponse
 
 render :: SR.StaticResource H.Html -> BS.ByteString
 render body =
@@ -28,3 +33,6 @@ render body =
 		javelin_resources = map Template.Page.prependPath $ css ++ js,
 		__html = R.renderHtml bodyMarkup
 	}
+
+renderError :: String -> BS.ByteString
+renderError err = AE.encode $ AjaxErrorResponse { error = err }
