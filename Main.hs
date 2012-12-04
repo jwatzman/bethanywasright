@@ -20,8 +20,9 @@ dispatch acid =
 		S.dir "delete" $ do
 			S.method S.POST
 			Page.Ajax.render Page.Delete.render acid,
-		-- TODO convert save to ajax page
-		S.dir "save" $ do S.method S.POST ; Page.Save.render acid,
+		S.dir "save" $ do
+			S.method S.POST
+			Page.Ajax.render Page.Save.render acid,
 		S.dir "static" $ S.serveDirectory S.DisableBrowsing [] "./static"
 	]
 
