@@ -3,7 +3,6 @@ module Page.Home(render) where
 import qualified Data.Acid as A
 import qualified Data.Acid.Advanced as AA
 import qualified Happstack.Lite as S
-import qualified Text.Blaze.Html5 as H
 
 import qualified Model.ItemList as IL
 import qualified Template.Home

@@ -1,11 +1,8 @@
 module Page.Ajax(render) where
 
-import Control.Monad.Trans (lift)
 import qualified Control.Monad.Trans.Error as E
 import qualified Happstack.Server as S
-import qualified Text.Blaze.Html5 as H
 
-import qualified StaticResource as SR
 import qualified Page.Util
 import qualified Template.Ajax
 
@@ -15,4 +12,4 @@ render f x = do
 	r <- E.runErrorT $ f x
 	S.ok $ S.toResponse $ case r of
 		Right response -> Template.Ajax.render response
-		Left error -> Template.Ajax.renderError error
+		Left errorStr -> Template.Ajax.renderError errorStr

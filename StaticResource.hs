@@ -15,7 +15,6 @@ import qualified Data.Set as S
 import Text.Blaze ((!))
 import qualified Text.Blaze as B
 import qualified Text.Blaze.Html5 as H
-import qualified Text.Blaze.Html5.Attributes as A
 
 data SRData = SRData {
 	cssSet :: S.Set String,

@@ -12,7 +12,6 @@ module Model.ItemList(
 
 import Control.Monad.Reader (ask)
 import Control.Monad.State (get, put)
-import Control.Monad.Trans (lift)
 import qualified Data.Acid as A
 import Data.Data (Data, Typeable)
 import qualified Data.IxSet as IxS
@@ -47,7 +46,7 @@ initialItemList = ItemList
 
 newItem :: Text -> A.Update ItemList I.Item
 newItem body = do
-	il@ItemList{..} <- get
+	ItemList{..} <- get
 	let item = I.Item
 		{
 			itemID = nextItemID,
@@ -62,19 +61,19 @@ newItem body = do
 	return item
 
 deleteItem :: I.ItemID -> A.Update ItemList (Either String ())
-deleteItem id = do
+deleteItem itemID = do
 	il@ItemList{..} <- get
-	case IxS.getOne $ IxS.getEQ id items of
+	case IxS.getOne $ IxS.getEQ itemID items of
 		Nothing -> return $ Left "item not found"
 		Just item -> do
 			let deletedItem = item { I.status = I.Deleted }
-			put $ il { items = IxS.updateIx id deletedItem items }
+			put $ il { items = IxS.updateIx itemID deletedItem items }
 			return $ Right ()
 
 itemById :: I.ItemID -> A.Query ItemList (Maybe I.Item)
-itemById id = do
+itemById itemID = do
 	ItemList{..} <- ask
-	return $ IxS.getOne $ IxS.getEQ id items
+	return $ IxS.getOne $ IxS.getEQ itemID items
 
 allItems :: A.Query ItemList [I.Item]
 allItems = do

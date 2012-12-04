@@ -16,7 +16,7 @@ type Response = ResponseM (SR.StaticResource H.Html)
 queryParamWithError :: String -> ResponseM Data.Text.Text
 queryParamWithError param = do
 	paramOrError <- lift $ RQ.getDataFn $ S.lookText param
-	param <- case paramOrError of
+	paramText <- case paramOrError of
 		Left err -> E.throwError $ concat err
-		Right param -> return param
-	return $ Data.Text.Lazy.toStrict param
+		Right paramText -> return paramText
+	return $ Data.Text.Lazy.toStrict paramText
