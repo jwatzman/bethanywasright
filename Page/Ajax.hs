@@ -6,12 +6,10 @@ import qualified Happstack.Server as S
 import qualified Text.Blaze.Html5 as H
 
 import qualified StaticResource as SR
+import qualified Page.Util
 import qualified Template.Ajax
 
-render ::
-	(a -> E.ErrorT String (S.ServerPartT IO) (SR.StaticResource H.Html)) ->
-	a ->
-	S.ServerPart S.Response
+render :: (a -> Page.Util.Response) -> a -> S.ServerPart S.Response
 render f x = do
 	-- TODO init stuff goes here, e.g., extracting javelin meta block
 	r <- E.runErrorT $ f x
