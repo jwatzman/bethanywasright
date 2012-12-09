@@ -19,6 +19,7 @@ import qualified Text.Blaze.Html5 as H
 data SRData = SRData {
 	cssSet :: S.Set String,
 	jsSet :: S.Set String,
+	metaPrefix :: String,
 	nextMeta :: Int,
 	reversedMeta :: [String] -- TODO this should really be some sort of map
 }
@@ -41,23 +42,25 @@ addMeta :: String -> H.Html -> StaticResource H.Html
 addMeta meta h = do
 	sr@SRData{..} <- SR get
 	SR $ put $ sr { nextMeta = succ nextMeta, reversedMeta = meta:reversedMeta }
-	return $ h ! (B.dataAttribute "meta" $ H.toValue $ "0_" ++ (show nextMeta))
+	return $
+		h ! (B.dataAttribute "meta" $ H.toValue $ metaPrefix ++ (show nextMeta))
 
 addSigil :: String -> H.Html -> H.Html
 addSigil sigil h = h ! (B.dataAttribute "sigil" $ H.toValue sigil)
 
-emptySRData :: SRData
-emptySRData = SRData {
+initSRData :: Integer -> SRData
+initSRData metablock = SRData {
 	cssSet = S.empty,
 	jsSet = S.empty,
+	metaPrefix = (show metablock) ++ "_",
 	nextMeta = 0,
 	reversedMeta = []
 }
 
-runSR :: StaticResource a -> (a, SRResult)
-runSR sr =
+runSR :: Integer -> StaticResource a -> (a, SRResult)
+runSR metablock sr =
 	let
-		(r, SRData{..}) = runState (getSR sr) emptySRData
+		(r, SRData{..}) = runState (getSR sr) (initSRData metablock)
 		result = SRResult {
 			css = S.toList cssSet,
 			js = S.toList jsSet,

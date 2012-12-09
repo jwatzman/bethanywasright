@@ -10,7 +10,7 @@ import qualified StaticResource as SR
 
 render :: String -> SR.StaticResource H.Html -> H.Html
 render title body =
-	let (bodyMarkup, SR.SRResult{..}) = SR.runSR body in
+	let (bodyMarkup, SR.SRResult{..}) = SR.runSR 0 body in
 	H.docTypeHtml $ do
 		H.head $ do
 			H.title $ H.toHtml title

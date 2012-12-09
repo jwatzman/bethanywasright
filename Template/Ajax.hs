@@ -26,9 +26,9 @@ data AjaxErrorResponse = AjaxErrorResponse {
 instance AE.ToJSON AjaxResponse
 instance AE.ToJSON AjaxErrorResponse
 
-render :: SR.StaticResource H.Html -> BS.ByteString
-render body =
-	let (bodyMarkup, SR.SRResult{..}) = SR.runSR body
+render :: Integer -> SR.StaticResource H.Html -> BS.ByteString
+render metablock body =
+	let (bodyMarkup, SR.SRResult{..}) = SR.runSR metablock body
 	in AE.encode $ AjaxResponse {
 		javelin_resources = map Template.Page.prependPath $ css ++ js,
 		__html = R.renderHtml bodyMarkup

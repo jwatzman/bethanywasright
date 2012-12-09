@@ -16,5 +16,5 @@ render f x = do
 		r <- f x
 		return $ (metablock, r)
 	S.ok $ S.toResponse $ case errResult of
-		Right (_, response) -> Template.Ajax.render response
+		Right (metablock, response) -> Template.Ajax.render metablock response
 		Left errorStr -> Template.Ajax.renderError errorStr
