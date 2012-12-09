@@ -12,9 +12,7 @@ import qualified StaticResource as SR
 import qualified Template.Page
 
 data AjaxResponse = AjaxResponse {
-	-- TODO wire this up -- requires telling SR monad what the current block
-	-- is though, but required for getting delete buttons to work on ajax
-	-- javelin_behaviors :: [String],
+	javelin_metadata :: [String],
 	javelin_resources :: [String],
 	__html :: BS.ByteString
 } deriving (Generic)
@@ -31,6 +29,7 @@ render metablock body =
 	let (bodyMarkup, SR.SRResult{..}) = SR.runSR metablock body
 	in AE.encode $ AjaxResponse {
 		javelin_resources = map Template.Page.prependPath $ css ++ js,
+		javelin_metadata = meta,
 		__html = R.renderHtml bodyMarkup
 	}
 
