@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # A poor man's version of javelin/scripts/sync-spec.php
 
