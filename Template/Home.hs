@@ -19,7 +19,7 @@ render items = do
 renderAddForm :: SR.StaticResource H.Html
 renderAddForm = do
 	SR.addJs "AddForm.js"
-	return $
+	return $ SR.addSigil "add" $
 		H.form ! A.id "addItemForm" ! A.action "/save" ! A.method "POST" $ do
 			"New Item: "
 			H.input ! A.type_ "text" ! A.name "body"
