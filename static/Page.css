@@ -16,15 +16,6 @@ body > * {
 body .header {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+	box-shadow: inset 0 5px 5px lightgrey, inset 0 0 5px dimgrey;
 	margin-top: 0;
-}
-
-body .header:before {
-	background-color: lightgrey;
-	content: '';
-	height: 6px;
-	margin-left: -144px;
-	position: absolute;
-	top: 0;
-	width: 548px;
 }
