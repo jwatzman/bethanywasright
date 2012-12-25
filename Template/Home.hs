@@ -14,7 +14,10 @@ render :: [I.Item] -> SR.StaticResource H.Html
 render items = do
 	il <- Template.ItemList.render items
 	form <- renderAddForm
-	return $ sequence_ [ il, form ]
+	return $ sequence_ [ header, il, form ]
+
+header :: H.Html
+header = H.h1 ! A.class_ "header" $ "Bethany was Right"
 
 renderAddForm :: SR.StaticResource H.Html
 renderAddForm = do
