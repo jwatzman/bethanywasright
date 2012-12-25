@@ -7,7 +7,8 @@ module Model.ItemList(
 	NewItem(..),
 	DeleteItem(..),
 	ItemById(..),
-	AllItems(..)
+	AllItems(..),
+	AllItemsEvenDeleted(..)
 ) where
 
 import Control.Monad.Reader (ask)
@@ -81,4 +82,12 @@ allItems = do
 	let visibleItems = IxS.getEQ I.Visible items
 	return $ IxS.toAscList (IxS.Proxy :: IxS.Proxy I.ItemID) visibleItems
 
-$(A.makeAcidic ''ItemList ['newItem, 'deleteItem, 'itemById, 'allItems])
+allItemsEvenDeleted :: A.Query ItemList [I.Item]
+allItemsEvenDeleted = do
+	ItemList{..} <- ask
+	return $ IxS.toAscList (IxS.Proxy :: IxS.Proxy I.ItemID) items
+
+$(A.makeAcidic ''ItemList
+	[
+		'newItem, 'deleteItem, 'itemById, 'allItems, 'allItemsEvenDeleted
+	])

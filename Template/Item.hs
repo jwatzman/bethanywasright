@@ -15,7 +15,11 @@ render item = do
 	hl <- Template.HorizList.render
 		[
 			H.toHtml $ I.body item,
-			SR.addSigil "delete" $ H.a ! A.href "/delete" $ "Delete"
+			renderDeleteLink item
 		]
 	SR.addMeta (show $ I.getItemID $ I.itemID item) $ SR.addSigil "item" $
 		H.li ! A.class_ "item" $ hl
+
+renderDeleteLink :: I.Item -> H.Html
+renderDeleteLink (I.Item { I.status = I.Deleted }) = H.i "Deleted"
+renderDeleteLink _ = SR.addSigil "delete" $ H.a ! A.href "/delete" $ "Delete"

@@ -8,6 +8,7 @@ import qualified Happstack.Lite as S
 
 import qualified Model.ItemList as IL
 import qualified Page.Ajax
+import qualified Page.All
 import qualified Page.Delete
 import qualified Page.Home
 import qualified Page.Save
@@ -17,6 +18,7 @@ dispatch acid =
 	msum [
 		-- TODO build an error-handling main page?
 		S.nullDir >> Page.Home.render acid,
+		S.dir "all" $ Page.All.render acid,
 		S.dir "delete" $ do
 			S.method S.POST
 			Page.Ajax.render Page.Delete.render acid,
