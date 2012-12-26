@@ -14,6 +14,8 @@ render title body =
 	H.docTypeHtml $ do
 		H.head $ do
 			H.title $ H.toHtml title
+			H.meta ! A.name "viewport" ! A.content
+				"width=device-width, initial-scale=1, maximum-scale=1"
 			renderJs "javelin.js"
 			renderMeta meta
 			mapM_ renderJs js
