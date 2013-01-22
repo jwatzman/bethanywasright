@@ -14,10 +14,16 @@ render :: [I.Item] -> SR.StaticResource H.Html
 render items = do
 	il <- Template.ItemList.render items
 	form <- renderAddForm
-	return $ sequence_ [ header, il, form ]
+	return $ sequence_ [ header, il, form, footer ]
 
 header :: H.Html
 header = H.h1 ! A.class_ "header" $ "Bethany was Right"
+
+footerContents :: String
+footerContents = "&hearts;, jwatzman"
+
+footer :: H.Html
+footer = H.div ! A.class_ "footer" $ H.preEscapedToMarkup footerContents
 
 renderAddForm :: SR.StaticResource H.Html
 renderAddForm = do
