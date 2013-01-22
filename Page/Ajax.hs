@@ -8,7 +8,9 @@ import qualified Template.Ajax
 
 render :: (a -> Page.Util.Response) -> a -> S.ServerPart S.Response
 render f x = do
-	-- TODO init stuff goes here, e.g., extracting javelin meta block
+	-- iOS loves to cache things it shouldn't, unless we EXPLICITLY say not
+	-- to: http://stackoverflow.com/a/12516555
+	S.addHeaderM "Cache-Control" "no-cache"
 	errResult <- E.runErrorT $ do
 		Page.Util.queryParamWithError "__ajax__"
 		metablockText <- Page.Util.queryParamWithError "__metablock__"
