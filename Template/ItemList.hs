@@ -13,6 +13,5 @@ import qualified Template.Item
 render :: [I.Item] -> SR.StaticResource H.Html
 render items = do
 	SR.addJs "ItemList.js"
-	SR.addCss "ItemList.css"
 	renderedItems <- mapM Template.Item.render items
 	return $ H.ul ! A.id "itemList" $ sequence_ renderedItems
