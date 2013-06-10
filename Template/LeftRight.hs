@@ -13,6 +13,6 @@ render lefts rights = do
 	SR.addCss "LeftRight.css"
 	return $ sequence_
 		[
-			H.div ! A.class_ "left" $ sequence_ lefts,
-			H.div ! A.class_ "right" $ sequence_ rights
+			H.div ! A.class_ "right" $ sequence_ rights,
+			H.div ! A.class_ "left" $ sequence_ lefts
 		]
